@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ане — 50</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:#0d0a10;color:#fff;font-family:Georgia,serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 20%,#d76b9130,transparent 30%),radial-gradient(circle at 80% 70%,#e4b86b22,transparent 30%);pointer-events:none}
+section{min-height:100vh;display:grid;place-items:center;padding:50px 20px;position:relative}
+.cover{text-align:center}
+.mini{font:700 12px Arial;letter-spacing:6px;color:#e4b86b;text-transform:uppercase}
+.number{font:900 32vw/0.8 Arial;color:transparent;-webkit-text-stroke:2px #d76b91;margin:25px 0}
+h1{font-size:clamp(40px,8vw,90px);margin:0}.cover p{color:#d9c9d2;font-size:20px;font-style:italic}
+.scroll{margin-top:40px;border:1px solid #ffffff44;border-radius:99px;padding:13px 24px;color:white;text-decoration:none;font:14px Arial;display:inline-block}
+.card{max-width:850px;text-align:center;background:#ffffff0b;border:1px solid #ffffff18;border-radius:35px;padding:45px;backdrop-filter:blur(12px);box-shadow:0 30px 100px #000}
+.card h2{font-size:clamp(32px,6vw,58px);margin:0 0 25px;color:#f0bdcf}
+.card p{font-size:20px;line-height:1.75;color:#eee}
+.highlight{color:#e4b86b}
+.timeline{max-width:1100px;width:100%}.timeline h2{text-align:center;font-size:45px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.photo{aspect-ratio:1;border-radius:20px;overflow:hidden;background:#211923;border:1px solid #ffffff1a;position:relative;transition:.35s;cursor:pointer}
+.photo:hover{transform:translateY(-8px) rotate(1deg);box-shadow:0 20px 50px #000}
+.photo img{width:100%;height:100%;object-fit:cover}.empty{height:100%;display:grid;place-items:center;color:#d76b91;font:40px Arial}
+.photo b{position:absolute;left:10px;bottom:9px;background:#0009;border-radius:20px;padding:5px 10px;font:12px Arial}
+.final{text-align:center}.final h2{font-size:clamp(40px,7vw,80px);margin:0}.final p{font-size:22px;color:#d9c9d2;max-width:650px;line-height:1.6}
+button{border:0;background:#d76b91;color:white;border-radius:99px;padding:15px 25px;font-weight:bold;cursor:pointer;font-size:15px}
+#surprise{display:none;margin:25px auto 0;max-width:650px;color:#f0bdcf;font-size:24px;line-height:1.5}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:20}
+@media(max-width:700px){.grid{grid-template-columns:repeat(3,1fr);gap:8px}.card{padding:28px 18px}.card p{font-size:18px}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+
+<section class="cover">
+<div>
+<div class="mini">особенный день · особенный человек</div>
+<div class="number">50</div>
+<h1>Аня, с юбилеем!</h1>
+<p>Это не просто поздравление.<br>Это маленькая история о прекрасных 50 годах.</p>
+<a class="scroll" href="#letter">Открыть историю ↓</a>
+</div>
+</section>
+
+<section id="letter">
+<div class="card">
+<h2>Дорогая Аня ♡</h2>
+<p>Сегодня тебе <span class="highlight">50</span>, но цифры — это всего лишь цифры.</p>
+<p>За этой красивой датой — годы, наполненные людьми, событиями, улыбками, любовью и воспоминаниями, которые сделали тебя именно такой, какая ты есть.</p>
+<p>Пусть впереди будет ещё больше моментов, которыми хочется дорожить. Пусть рядом всегда будут любимые люди, а каждый новый год приносит здоровье, тепло, радость и исполнение желаний.</p>
+<p class="highlight">С юбилеем! Пусть самые лучшие страницы твоей истории ещё впереди.</p>
+</div>
+</section>
+
+<section>
+<div class="timeline">
+<h2>12 моментов, которые хочется сохранить ♡</h2>
+<p style="text-align:center;color:#bcaeb7"></p>
+<div class="grid" id="grid"></div>
+</div>
+</section>
+
+<section class="final">
+<div>
+<h2>А теперь — самое главное</h2>
+<p>Пусть в 50 жизнь не становится тише. Пусть она становится интереснее, ярче и счастливее.</p>
+<button id="btn">Нажми сюда ✨</button>
+<div id="surprise">Аня, желаем тебе огромного счастья, крепкого здоровья и бесконечного количества причин улыбаться. С юбилеем! 🥂 ♡</div>
+</div>
+</section>
+
+<script>
+const grid=document.getElementById('grid');
+for(let i=1;i<=12;i++){
+ const d=document.createElement('div');d.className='photo';
+ d.innerHTML=`<img src="Фото/${i}.jpg" alt="Воспоминание ${i}" onerror="this.remove();this.insertAdjacentHTML('afterend','<div class="empty">♡</div>')"><b>${i}</b>`;
+ grid.appendChild(d);
+}
+const btn=document.getElementById('btn'),msg=document.getElementById('surprise'),canvas=document.getElementById('confetti'),ctx=canvas.getContext('2d');
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}resize();addEventListener('resize',resize);
+btn.onclick=()=>{
+ msg.style.display='block';btn.textContent='С юбилеем, Аня! 💗';
+ let pieces=Array.from({length:130},()=>({x:innerWidth/2,y:innerHeight*.55,vx:(Math.random()-.5)*12,vy:-Math.random()*12-4,r:Math.random()*5+2,g:Math.random()*360}));
+ let t=0;function anim(){ctx.clearRect(0,0,canvas.width,canvas.height);pieces.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.25;ctx.fillStyle=`hsl(${p.g},70%,65%)`;ctx.fillRect(p.x,p.y,p.r,p.r)});if(t++<120)requestAnimationFrame(anim);else ctx.clearRect(0,0,canvas.width,canvas.height)}anim();
+}
+</script>
+</body>
+</html>
